@@ -146,9 +146,7 @@ class HtmlElement(object):
     def __str__(self):
         args = {
             "tag": _clean_name(self._tag),
-            "attrs": " ".join(
-                [f'{_clean_name(k)}="{v}"' for k, v in self._attrs.items()]
-            ),
+            "attrs": _serialize_attrs(self._attrs),
             "children": "".join([str(c) for c in self._children]),
         }
 
@@ -162,6 +160,11 @@ class HtmlElement(object):
                 return "<%(tag)s %(attrs)s>%(children)s</%(tag)s>" % args
             else:
                 return "<%(tag)s>%(children)s</%(tag)s>" % args
+
+
+def _serialize_attrs(attrs):
+    """Serialize HTML attributes to a string."""
+    return " ".join([f'{_clean_name(k)}="{v}"' for k, v in attrs.items()])
 
 
 def _clean_name(k):
