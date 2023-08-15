@@ -287,5 +287,10 @@ class TestHtBuilder(unittest.TestCase):
         dom = div("hello", None, " ", False, "world", True, "!")
         self.assertEqual(str(dom), "<div>hello world!</div>")
 
-if __name__ == '__main__':
+    def test_unrendered_children_with_fragment(self):
+        dom = div(fragment("hello", None, " ", False, "world", True, "!"))
+        self.assertEqual(str(dom), "<div>hello world!</div>")
+
+
+if __name__ == "__main__":
     unittest.main()

@@ -185,7 +185,7 @@ def _clean_name(k):
 
 
 def fragment(*args):
-    return "".join(str(arg) for arg in args)
+    return _render_children(args)
 
 
 # Python >= 3.7
