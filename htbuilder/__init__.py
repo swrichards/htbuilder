@@ -147,7 +147,7 @@ class HtmlElement(object):
         args = {
             "tag": _clean_name(self._tag),
             "attrs": _serialize_attrs(self._attrs),
-            "children": "".join([str(c) for c in self._children]),
+            "children": _render_children(self._children),
         }
 
         if self._is_empty:
@@ -160,6 +160,10 @@ class HtmlElement(object):
                 return "<%(tag)s %(attrs)s>%(children)s</%(tag)s>" % args
             else:
                 return "<%(tag)s>%(children)s</%(tag)s>" % args
+
+
+def _render_children(children):
+    return "".join([str(c) for c in children])
 
 
 def _serialize_attrs(attrs):
