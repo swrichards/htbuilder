@@ -268,6 +268,20 @@ class TestHtBuilder(unittest.TestCase):
             normalize_whitespace("""<div bar="baz"></div>"""),
         )
 
+    def test_attr_is_not_rendered_if_value_is_False(self):
+        dom = div(foo=False, bar="baz")
+        self.assertEqual(
+            str(dom),
+            normalize_whitespace("""<div bar="baz"></div>"""),
+        )
+
+    def test_attr_is_rendered_as_key_only_if_value_is_True(self):
+        dom = div(foo=True, bar="baz")
+        self.assertEqual(
+            str(dom),
+            normalize_whitespace("""<div foo bar="baz"></div>"""),
+        )
+
     def test_arg_order(self):
         dom = div("hello", foo="bar")
         self.assertEqual(str(dom), normalize_whitespace('''

@@ -206,16 +206,34 @@ print(dom)
 # Prints: <div>Always show me. </div>
 ```
 
-Similarly, any attribute which evaluates to `None` will not be rendered:
+Similarly, any attribute which evaluates to `None` or `False` will not be rendered:
 
 ```py
 maybe_empty_str = ""
 dom = (
-  div(foo=None, bar="baz", baz=maybe_empty_str or None)
+  div(foo=None, bar="baz", baz=maybe_empty_str or None, buzz=False)
 )
 
 print(dom)
 # Prints: <div bar="baz"></div>
+```
+
+However, attributes set to `True` will be interpreted as so-called Boolean attributes,
+and will be rendered with only a key but no value:
+
+```py
+from htbuilder import div, script, option
+
+dom = (
+  div(
+    script(defer=True, src="some.js"),
+    option(disabled=True, name="a disabled option"),
+    option(disabled=False, name="an enabled option"),
+  )
+)
+
+print(dom)
+# Prints: <div><script defer src="some.js"></script><option disabled name="a disabled option"></option><option name="an enabled option"></option></div>
 ```
 
 ## Styling

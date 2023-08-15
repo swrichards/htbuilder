@@ -174,7 +174,11 @@ def _render_children(children):
 def _serialize_attrs(attrs):
     """Serialize HTML attributes to a string."""
     return " ".join(
-        [f'{_clean_name(k)}="{v}"' for k, v in attrs.items() if v is not None]
+        [
+            f'{_clean_name(k)}="{v}"' if v is not True else _clean_name(k)
+            for k, v in attrs.items()
+            if (v is not None and v is not False)
+        ]
     )
 
 
