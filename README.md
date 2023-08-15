@@ -148,7 +148,30 @@ print(dom)
 # Prints: <div><b>bold text</b></div>
 ```
 
-Any attribute which evaluates to `None` will not be rendered:
+Any child argument that evaluates to `None`, `True`, or `False` will not be rendered:
+
+```py
+from htbuilder import div, span
+
+show_this = True
+
+dom = (
+  div("Always show me. ", show_this and "Sometimes show me.", bool("Never show me"), bool(""))
+)
+print(dom)
+# Prints: <div>Always show me. Sometimes show me.</div>
+
+show_this = False
+
+dom = (
+  div("Always show me. ", show_this and "Sometimes show me.")
+)
+
+print(dom)
+# Prints: <div>Always show me. </div>
+```
+
+Similarly, any attribute which evaluates to `None` will not be rendered:
 
 ```py
 maybe_empty_str = ""

@@ -283,6 +283,9 @@ class TestHtBuilder(unittest.TestCase):
             <div foo="bar">hello</div>
         '''))
 
+    def test_voided_children_are_not_rendered(self):
+        dom = div("hello", None, " ", False, "world", True, "!")
+        self.assertEqual(str(dom), "<div>hello world!</div>")
 
 if __name__ == '__main__':
     unittest.main()

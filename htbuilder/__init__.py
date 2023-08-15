@@ -110,6 +110,9 @@ class HtmlTag(object):
         return el
 
 
+VOIDED_CHILDREN = (None, False, True)
+
+
 class HtmlElement(object):
     def __init__(self, tag, attrs={}, children=[]):
         """An HTML element."""
@@ -163,7 +166,9 @@ class HtmlElement(object):
 
 
 def _render_children(children):
-    return "".join([str(c) for c in children])
+    return "".join(
+        [str(c) for c in children if all(c is not uc for uc in VOIDED_CHILDREN)]
+    )
 
 
 def _serialize_attrs(attrs):
