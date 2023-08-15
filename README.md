@@ -94,6 +94,41 @@ print(dom)
 # </div>
 ```
 
+## Grouping children without rendering extra elements
+
+It can be useful to group a number of logically related elements, without rendering an additional element to act
+as a container (e.g. for more readable indentation of your
+element tree in Python). To achieve this, use the `fragment`
+helper:
+
+```py
+from htbuilder import fragment, div, b, i
+
+dom = (
+  div(
+    "The following flavours are available: ",
+    fragment(
+      b("strawberry"),
+      ", ",
+      b("vanilla"),
+      " and ",
+      b("pistachio"),
+      ". "
+    ),
+    "The following flavours are unavailable: ",
+    fragment(
+      i("chocolate"),
+      " and ",
+      i("raspberry"),
+      "."
+    )
+  )
+)
+
+print(dom)
+# Prints: <div>The following flavours are available: <b>strawberry</b>, <b>vanilla</b> and <b>pistachio</b>. The following flavours are unavailable: <i>chocolate</i> and <i>raspberry</i>.</div>
+```
+
 ## Programmatically add children
 
 You can also pass any iterable to specify multiple children, which means you can
