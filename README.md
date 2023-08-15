@@ -65,7 +65,6 @@ print(
 This is required because Python doesn't allow you to pass keyword arguments
 _before_ you pass normal arguments.
 
-
 ## Multiple children
 
 Want to output multiple children? Just pass them all as arguments:
@@ -129,7 +128,7 @@ print(dom)
 # </div>
 ```
 
-## Conditionally add elements
+## Conditionally add elements and attributes
 
 And because it's just Python, you can use an if/else expression to conditionally
 insert elements:
@@ -147,6 +146,18 @@ dom = (
 
 print(dom)
 # Prints: <div><b>bold text</b></div>
+```
+
+Any attribute which evaluates to `None` will not be rendered:
+
+```py
+maybe_empty_str = ""
+dom = (
+  div(foo=None, bar="baz", baz=maybe_empty_str or None)
+)
+
+print(dom)
+# Prints: <div bar="baz"></div>
 ```
 
 ## Styling
@@ -196,7 +207,6 @@ dom = (
 #   "></div>
 ```
 
-
 ## Underscores are magic
 
 ### Use underscores instead of dashes
@@ -230,7 +240,6 @@ print(dom)
 
 This works because underscores preceding or following any identifier are automatically stripped away
 for you.
-
 
 ## Working with Python &lt; 3.7
 

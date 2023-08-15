@@ -164,7 +164,9 @@ class HtmlElement(object):
 
 def _serialize_attrs(attrs):
     """Serialize HTML attributes to a string."""
-    return " ".join([f'{_clean_name(k)}="{v}"' for k, v in attrs.items()])
+    return " ".join(
+        [f'{_clean_name(k)}="{v}"' for k, v in attrs.items() if v is not None]
+    )
 
 
 def _clean_name(k):

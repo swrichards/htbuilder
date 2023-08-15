@@ -254,6 +254,20 @@ class TestHtBuilder(unittest.TestCase):
             <div foo-bar="boz"></div>
         '''))
 
+    def test_attr_empty_string_is_rendered(self):
+        dom = div(foo="")
+        self.assertEqual(
+            str(dom),
+            normalize_whitespace("""<div foo=""></div>"""),
+        )
+
+    def test_attr_is_not_rendered_if_value_is_none(self):
+        dom = div(foo=None, bar="baz")
+        self.assertEqual(
+            str(dom),
+            normalize_whitespace("""<div bar="baz"></div>"""),
+        )
+
     def test_arg_order(self):
         dom = div("hello", foo="bar")
         self.assertEqual(str(dom), normalize_whitespace('''
