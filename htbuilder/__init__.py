@@ -182,10 +182,16 @@ def _serialize_attrs(attrs):
     )
 
 
-def _clean_name(k):
-    # This allows you to use reserved words by prepending/appending underscores.
-    # For example, "_class" instead of "class".
-    return k.strip("_").replace("_", "-")
+def _clean_name(k: str) -> str:
+    # This allows you to use reserved words by appending an underscore as a suffix.
+    # For example, use "class_" instead of "class". If an underscore prefix is provided,
+    # a ValueError exception will be raised.
+    if k.startswith("_"):
+        raise ValueError(
+            "Underscore prefix for reserved words not supported, use suffix instead."
+        )
+
+    return k.rstrip("_").replace("_", "-")
 
 
 def fragment(*args):
