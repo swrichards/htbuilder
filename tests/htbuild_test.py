@@ -14,7 +14,7 @@
 
 import unittest
 
-from htbuilder import div, ul, li, img, h1, script, fragment, my_custom_element, _my_custom_element
+from htbuilder import div, ul, li, img, h1, script, fragment, my_custom_element, my_custom_element_
 from htbuilder.funcs import rgba
 from htbuilder.units import px, em, percent
 from htbuilder.utils import styles
@@ -120,7 +120,7 @@ class TestHtBuilder(unittest.TestCase):
         dom = (
             div(
                 id='container',
-                _class='foo bar',
+                class_='foo bar',
                 style='color: red; border-radius: 10px;',
             )('hello')
         )
@@ -136,7 +136,7 @@ class TestHtBuilder(unittest.TestCase):
         )
 
     def test_functional_component(self):
-        component = ul(_class='myul')(
+        component = ul(class_='myul')(
             li('Hello'),
         )
 
@@ -155,6 +155,11 @@ class TestHtBuilder(unittest.TestCase):
               </ul>
             '''),
         )
+
+    def test_underscore_prefix_raises_value_error(self):
+        with self.assertRaises(ValueError):
+            str(h1(_class="bad-heading"))
+
 
     def test_funcs_in_builder(self):
         dom = div(style=styles(color=rgba(10, 20, 30, 40)))
@@ -237,7 +242,7 @@ class TestHtBuilder(unittest.TestCase):
         '''))
 
     def test_tag_understores_to_dashes_with_strip(self):
-        dom = _my_custom_element(foo="bar")
+        dom = my_custom_element_(foo="bar")
         self.assertEqual(str(dom), normalize_whitespace('''
             <my-custom-element foo="bar"></my-custom-element>
         '''))
@@ -249,7 +254,7 @@ class TestHtBuilder(unittest.TestCase):
         '''))
 
     def test_attr_understores_to_dashes_with_strip(self):
-        dom = div(__foo_bar_="boz")
+        dom = div(foo_bar__="boz")
         self.assertEqual(str(dom), normalize_whitespace('''
             <div foo-bar="boz"></div>
         '''))
