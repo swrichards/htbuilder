@@ -147,11 +147,16 @@ class HtmlElement(object):
         del self._attrs[name]
 
     def __str__(self):
-        return self._get_html_template() % {
+        html = self._get_html_template() % {
             "tag": _clean_name(self._tag),
             "attrs": _serialize_attrs(self._attrs),
             "children": _render_children(self._children),
         }
+
+        if self._tag == "html":
+            return "<!DOCTYPE html>%(html)s" % {"html": html}
+
+        return html
 
     def _get_html_template(self) -> str:
         if self._is_empty:
