@@ -147,22 +147,21 @@ class HtmlElement(object):
         del self._attrs[name]
 
     def __str__(self):
-        args = {
+        return self._get_html_template() % {
             "tag": _clean_name(self._tag),
             "attrs": _serialize_attrs(self._attrs),
             "children": _render_children(self._children),
         }
 
+    def _get_html_template(self) -> str:
         if self._is_empty:
-            if self._attrs:
-                return "<%(tag)s %(attrs)s/>" % args
-            else:
-                return "<%(tag)s/>" % args
-        else:
-            if self._attrs:
-                return "<%(tag)s %(attrs)s>%(children)s</%(tag)s>" % args
-            else:
-                return "<%(tag)s>%(children)s</%(tag)s>" % args
+            return "<%(tag)s %(attrs)s/>" if self._attrs else "<%(tag)s/>"
+
+        return (
+            "<%(tag)s %(attrs)s>%(children)s</%(tag)s>"
+            if self._attrs
+            else "<%(tag)s>%(children)s</%(tag)s>"
+        )
 
 
 def _render_children(children):
