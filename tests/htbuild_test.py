@@ -31,7 +31,7 @@ class TestHtBuilder(unittest.TestCase):
         )
 
     def test_basic_usage(self):
-        dom = div('hello')
+        dom = div()('hello')
         self.assertEqual(
             str(dom),
             normalize_whitespace('<div>hello</div>'),
@@ -56,7 +56,7 @@ class TestHtBuilder(unittest.TestCase):
         dom = div(id='container')(children)
         self.assertEqual(str(dom), '<div id="container">01234</div>')
 
-        dom = div(children)
+        dom = div()(children)
         self.assertEqual(str(dom), '<div>01234</div>')
 
     def test_vararg_children(self):
@@ -64,7 +64,7 @@ class TestHtBuilder(unittest.TestCase):
         dom = div(id='container')(*children)
         self.assertEqual(str(dom), '<div id="container">01234</div>')
 
-        dom = div(*children)
+        dom = div()(*children)
         self.assertEqual(str(dom), '<div>01234</div>')
 
     def test_list_children(self):
@@ -72,7 +72,7 @@ class TestHtBuilder(unittest.TestCase):
         dom = div(id='container')(children)
         self.assertEqual(str(dom), '<div id="container">01234</div>')
 
-        dom = div(children)
+        dom = div()(children)
         self.assertEqual(str(dom), '<div>01234</div>')
 
     def test_iterable_children(self):
@@ -80,7 +80,7 @@ class TestHtBuilder(unittest.TestCase):
         dom = div(id='container')(children)
         self.assertEqual(str(dom), '<div id="container">01234</div>')
 
-        dom = div(children)
+        dom = div()(children)
         self.assertEqual(str(dom), '<div>01234</div>')
 
     def test_nested_children(self):
@@ -88,17 +88,17 @@ class TestHtBuilder(unittest.TestCase):
         dom = div(id='container')(children)
         self.assertEqual(str(dom), '<div id="container">01012</div>')
 
-        dom = div(children)
+        dom = div()(children)
         self.assertEqual(str(dom), '<div>01012</div>')
 
     def test_complex_tree(self):
         dom = (
             div(id='container')(
-                h1('Examples'),
-                ul(
-                    li("Example 1"),
-                    li("Example 2"),
-                    li("Example 3"),
+                h1()('Examples'),
+                ul()(
+                    li()("Example 1"),
+                    li()("Example 2"),
+                    li()("Example 3"),
                 )
             )
         )
@@ -136,12 +136,12 @@ class TestHtBuilder(unittest.TestCase):
         )
 
     def test_functional_component(self):
-        component = ul(class_='myul')(
-            li('Hello'),
+        component = ul(class_='myul', style='color: red')(
+            li()('Hello'),
         )
 
-        dom = component(style='color: red')(
-            li('Goodbye'),
+        dom = component()(
+            li()('Goodbye'),
         )
 
         self.assertEqual(
@@ -193,8 +193,8 @@ class TestHtBuilder(unittest.TestCase):
 
     def test_fragment_tag(self):
         dom = fragment(
-            h1('hello'),
-            div('world')
+            h1()('hello'),
+            div()('world')
         )
         self.assertEqual(str(dom), normalize_whitespace('''
             <h1>hello</h1><div>world</div>
@@ -288,13 +288,13 @@ class TestHtBuilder(unittest.TestCase):
         )
 
     def test_arg_order(self):
-        dom = div("hello", foo="bar")
+        dom = div(foo="bar")("hello")
         self.assertEqual(str(dom), normalize_whitespace('''
             <div foo="bar">hello</div>
         '''))
 
     def test_repeat(self):
-        dom = div("hello", foo="bar")
+        dom = div(foo="bar")("hello")
         self.assertEqual(str(dom), normalize_whitespace('''
             <div foo="bar">hello</div>
         '''))
@@ -303,11 +303,11 @@ class TestHtBuilder(unittest.TestCase):
         '''))
 
     def test_voided_children_are_not_rendered(self):
-        dom = div("hello", None, " ", False, "world", True, "!")
+        dom = div()("hello", None, " ", False, "world", True, "!")
         self.assertEqual(str(dom), "<div>hello world!</div>")
 
     def test_unrendered_children_with_fragment(self):
-        dom = div(fragment("hello", None, " ", False, "world", True, "!"))
+        dom = div()(fragment("hello", None, " ", False, "world", True, "!"))
         self.assertEqual(str(dom), "<div>hello world!</div>")
 
 

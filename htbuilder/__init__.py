@@ -104,31 +104,26 @@ class HtmlTag(object):
         """HTML element builder."""
         self._tag = tag
 
-    def __call__(self, *args, **kwargs):
-        el = HtmlElement(self._tag)
-        el(*args, **kwargs)
-        return el
+    def __call__(self, **attrs):
+        return HtmlElement(self._tag, attrs=attrs)
 
 
 VOIDED_CHILDREN = (None, False, True)
 
 
 class HtmlElement(object):
-    def __init__(self, tag, attrs={}, children=[]):
+    def __init__(self, tag, attrs={}):
         """An HTML element."""
         self._tag = tag.lower()
         self._attrs = attrs
-        self._children = children
+        self._children = []
         self._is_empty = tag in EMPTY_ELEMENTS
 
-    def __call__(self, *children, **attrs):
+    def __call__(self, *children):
         if children:
             if self._is_empty:
                 raise TypeError("<%s> cannot have children" % self._tag)
             self._children = list(collapse([*self._children, *children]))
-
-        if attrs:
-            self._attrs = {**self._attrs, **attrs}
 
         return self
 
