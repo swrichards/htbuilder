@@ -80,8 +80,6 @@ def styles(**rules):
         for (k, v) in rules.items()
     )
 
-    return _parse_style_value(v)
-
 
 def _parse_style_value(style):
     if isinstance(style, tuple):
