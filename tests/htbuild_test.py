@@ -173,13 +173,13 @@ class TestHtBuilder(unittest.TestCase):
             <div style="foo:10px 9px 8px"></div>
         '''))
 
-    def test_funcs_and_units_in_builder(self):
+    def test_funcs_and_units_in_builder_margin(self):
         dom = div(style=styles(margin=px(0, 0, 10, 0)))
         self.assertEqual(str(dom), normalize_whitespace('''
             <div style="margin:0 0 10px 0"></div>
         '''))
 
-    def test_funcs_and_units_in_builder(self):
+    def test_funcs_and_units_in_builder_animate(self):
         dom = div(style=styles(animate=['color', 'margin']))
         self.assertEqual(str(dom), normalize_whitespace('''
             <div style="animate:color,margin"></div>
