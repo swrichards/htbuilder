@@ -27,12 +27,8 @@ def classes(*names, convert_underscores=True, **names_and_bools):
     "foo bar long_name"
 
     """
-    if convert_underscores:
-        def clean(name):
-            return name.replace("_", "-")
-    else:
-        def clean(name):
-            return name
+    def clean(name):
+        return name.replace("_", "-") if convert_underscores else name
 
     classes = [clean(name) for name in names]
 
