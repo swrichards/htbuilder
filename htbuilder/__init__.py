@@ -105,9 +105,11 @@ class HtmlTag(object):
         self._tag = tag
 
     def __call__(self, *args, **kwargs):
-        el = HtmlElement(self._tag)
-        el(*args, **kwargs)
-        return el
+        if args and kwargs:
+            raise ValueError("Accept args or kwargs in element, but not both.")
+
+        return HtmlElement(self._tag)(*args, **kwargs)
+
 
 
 VOIDED_CHILDREN = (None, False, True)
