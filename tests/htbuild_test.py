@@ -287,14 +287,11 @@ class TestHtBuilder(unittest.TestCase):
             normalize_whitespace("""<div foo bar="baz"></div>"""),
         )
 
-    def test_arg_order(self):
-        dom = div("hello", foo="bar")
-        self.assertEqual(str(dom), normalize_whitespace('''
-            <div foo="bar">hello</div>
-        '''))
+    def test_both_children_and_attrs_raises(self):
+        self.assertRaises(ValueError, lambda: div("hello", foo="bar"))
 
     def test_repeat(self):
-        dom = div("hello", foo="bar")
+        dom = div(foo="bar")("hello")
         self.assertEqual(str(dom), normalize_whitespace('''
             <div foo="bar">hello</div>
         '''))
